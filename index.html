@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nourishology — a moisturizer for skin that won't settle</title>
+<meta name="description" content="A simple, fragrance-free moisturizer made with ceramides, squalane and shea butter. A nurse's reason, a chemist's formula.">
+<meta property="og:title" content="Nourishology">
+<meta property="og:description" content="A moisturizer for skin that won't settle. No fragrance. No alcohol.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FBF7F0;
+  --cream-deep:#F3ECE0;
+  --ink:#2A2420;
+  --soft:#7A6E63;
+  --rule:#E4DCD0;
+  --sage:#5A6B57;
+  --amber:#9A7038;
+  --serif:"Newsreader",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--cream);color:var(--ink);
+  font-family:var(--sans);font-size:17px;line-height:1.68;
+}
+::selection{background:var(--amber);color:var(--cream)}
+a{color:var(--sage)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+
+.wrap{max-width:760px;margin:0 auto;padding:0 26px}
+.eyebrow{
+  font-family:var(--sans);font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--soft);margin:0 0 20px;
+}
+
+.hero{padding:16vh 0 10vh;text-align:center}
+.mark{
+  font-family:var(--serif);font-weight:300;font-size:clamp(2.9rem,8vw,4.4rem);
+  letter-spacing:-.02em;margin:0 0 6px;line-height:1;
+}
+.tag{
+  font-family:var(--serif);font-style:italic;font-weight:300;
+  font-size:1.18rem;color:var(--sage);margin:0 0 34px;
+}
+.lede{font-size:1.16rem;color:var(--soft);max-width:44ch;margin:0 auto 34px}
+.triad{
+  display:flex;justify-content:center;gap:26px;flex-wrap:wrap;
+  font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--soft);
+}
+.triad span{white-space:nowrap}
+
+.sec{padding:0 0 11vh}
+.sec h2{
+  font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,4vw,2.4rem);
+  letter-spacing:-.015em;margin:0 0 8px;
+}
+.sub{color:var(--soft);margin:0 0 34px;font-size:.98rem}
+.sec p{margin:0 0 18px;max-width:62ch}
+.rule{border:none;border-top:1px solid var(--rule);margin:0 0 44px}
+
+.claims{border-top:1px solid var(--rule)}
+.claim{border-bottom:1px solid var(--rule);padding:22px 0}
+.claim h3{
+  font-family:var(--serif);font-weight:400;font-size:1.28rem;margin:0 0 6px;
+}
+.claim p{margin:0;color:var(--soft);font-size:.97rem}
+
+.truth{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);
+  border:1px solid var(--rule)}
+.truth > div{background:var(--cream);padding:26px 24px}
+.truth h3{
+  font-family:var(--sans);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--amber);margin:0 0 14px;font-weight:500;
+}
+.truth ul{margin:0;padding-left:1.1em}
+.truth li{margin-bottom:9px;font-size:.95rem;color:var(--soft)}
+
+.ing{border-top:1px solid var(--rule)}
+.ing .row{
+  display:grid;grid-template-columns:1fr auto;gap:18px;align-items:baseline;
+  border-bottom:1px solid var(--rule);padding:13px 0;
+}
+.ing .n{font-size:.97rem}
+.ing .r{font-size:.86rem;color:var(--soft);text-align:right}
+.ingnote{margin-top:22px;font-size:.9rem;color:var(--soft)}
+
+.story{border-left:2px solid var(--amber);padding-left:26px}
+.story p{font-family:var(--serif);font-size:1.1rem;line-height:1.66}
+.story .sig{
+  font-family:var(--serif);font-style:italic;color:var(--soft);margin-top:22px;
+}
+
+.note{
+  border:1px solid var(--rule);border-left:3px solid var(--amber);
+  background:var(--cream-deep);padding:24px 28px;margin:0 0 20px;
+}
+.note h3{
+  font-family:var(--sans);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--amber);margin:0 0 12px;font-weight:500;
+}
+.note p{margin:0 0 11px;font-size:.94rem;color:var(--soft)}
+.note p:last-child{margin-bottom:0}
+.note strong{color:var(--ink);font-weight:500}
+
+.btn{
+  display:inline-block;font-family:var(--sans);font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;text-decoration:none;padding:15px 28px;
+  border:1px solid var(--sage);color:var(--sage);transition:background .2s,color .2s;
+}
+.btn:hover,.btn:focus-visible{background:var(--sage);color:var(--cream)}
+
+footer{border-top:1px solid var(--rule);padding:36px 0 70px;color:var(--soft);font-size:.85rem}
+footer p{margin:0 0 8px;max-width:60ch}
+
+@media (max-width:700px){
+  .hero{padding:10vh 0 7vh}
+  .truth{grid-template-columns:1fr}
+  .triad{flex-direction:column;gap:6px}
+  .story{padding-left:18px}
+  .sec{padding:0 0 8vh}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <header class="hero">
+    <p class="eyebrow">Batch No. 1</p>
+    <h1 class="mark">Nourishology</h1>
+    <p class="tag">the science of nourishment</p>
+    <p class="lede">A moisturizer for skin that won't settle. Fragrance-free, alcohol-free, and made to be simple enough to use every day.</p>
+    <p class="triad"><span>a nurse's reason</span><span>·</span><span>a chemist's formula</span></p>
+  </header>
+
+  <hr class="rule">
+
+  <section class="sec" id="what">
+    <h2>What it is</h2>
+    <p class="sub">Plainly, and without the part where we oversell it.</p>
+    <p>Nourishology is a leave-on moisturizing cream. It's built around the things that hold moisture in skin and keep the surface comfortable: ceramides, squalane, glycerin and shea butter, in a base with no fragrance and no drying alcohol.</p>
+    <p>It was made because someone who spends her working life around irritated skin couldn't find a daily moisturizer she was happy to reach for. That's the whole origin. There isn't a bigger story than that.</p>
+
+    <div class="truth">
+      <div>
+        <h3>What it does</h3>
+        <ul>
+          <li>Moisturizes, and keeps moisturizing — the barrier ingredients are there so it doesn't wear off in an hour</li>
+          <li>Softens rough, tight, flaky skin</li>
+          <li>Feels comfortable on skin that reacts to most things</li>
+          <li>Absorbs without a film, so it works under sunscreen or makeup</li>
+        </ul>
+      </div>
+      <div>
+        <h3>What it is not</h3>
+        <ul>
+          <li>Not a drug and not a treatment for any condition</li>
+          <li>Not a substitute for seeing a dermatologist or a doctor</li>
+          <li>Not tested in a clinical trial — it's a well-built cosmetic, not a studied medicine</li>
+          <li>Not going to fix something that needs actual medical care</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="how">
+    <h2>How it works</h2>
+    <p class="sub">Three jobs, no mystery.</p>
+    <div class="claims">
+      <div class="claim">
+        <h3>It replaces what's missing</h3>
+        <p>Skin that feels tight and rough is usually short on lipids and water. Ceramides, squalane and shea butter are the same kinds of materials skin already uses to hold itself together.</p>
+      </div>
+      <div class="claim">
+        <h3>It holds water in place</h3>
+        <p>Glycerin and the xylitol sugars draw water in. Ectoin and the ceramide blend help keep it there rather than letting it evaporate through the surface.</p>
+      </div>
+      <div class="claim">
+        <h3>It stays out of the way</h3>
+        <p>No fragrance, no essential oils, no drying alcohol — the three things most likely to bother reactive skin. What's left is a cream that's boring in the best sense.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="ingredients">
+    <h2>What's in it</h2>
+    <p class="sub">All of it, in order, exactly as it appears on the jar.</p>
+    <div class="ing">
+      <div class="row"><span class="n">Water</span><span class="r">Base</span></div>
+      <div class="row"><span class="n">Squalane</span><span class="r">Lightweight emollient</span></div>
+      <div class="row"><span class="n">Glycerin</span><span class="r">Draws in water</span></div>
+      <div class="row"><span class="n">Shea Butter</span><span class="r">Rich emollient</span></div>
+      <div class="row"><span class="n">Cetearyl Alcohol</span><span class="r">Thickener — not a drying alcohol</span></div>
+      <div class="row"><span class="n">Sunflower Lecithin</span><span class="r">Holds the emulsion together</span></div>
+      <div class="row"><span class="n">Ceramide NP</span><span class="r">Barrier lipid</span></div>
+      <div class="row"><span class="n">Ceramide AP</span><span class="r">Barrier lipid</span></div>
+      <div class="row"><span class="n">Ceramide EOP</span><span class="r">Barrier lipid</span></div>
+      <div class="row"><span class="n">Tetrahydrocurcuminoids</span><span class="r">Turmeric-derived antioxidant</span></div>
+      <div class="row"><span class="n">Palmitamide MEA</span><span class="r">Skin-conditioning agent</span></div>
+      <div class="row"><span class="n">Ectoin</span><span class="r">Helps skin hold water</span></div>
+      <div class="row"><span class="n">Astaxanthin</span><span class="r">Antioxidant</span></div>
+      <div class="row"><span class="n">Xylitylglucoside</span><span class="r">Humectant</span></div>
+      <div class="row"><span class="n">Anhydroxylitol</span><span class="r">Humectant</span></div>
+      <div class="row"><span class="n">Tocopherol</span><span class="r">Vitamin E — antioxidant</span></div>
+      <div class="row"><span class="n">Lactic Acid</span><span class="r">pH adjustment</span></div>
+      <div class="row"><span class="n">Xanthan Gum</span><span class="r">Texture</span></div>
+      <div class="row"><span class="n">Phenoxyethanol</span><span class="r">Preservative</span></div>
+      <div class="row"><span class="n">Ethylhexylglycerin</span><span class="r">Preservative booster, skin conditioning</span></div>
+    </div>
+    <p class="ingnote">No fragrance. No essential oils. No drying alcohol. Net weight 4 oz.</p>
+  </section>
+
+  <section class="sec" id="story">
+    <h2>Why it exists</h2>
+    <p class="sub">Two cousins, a small kitchen, and a batch of one.</p>
+    <div class="story">
+      <p>Nourishology is made by Stacia King and Andrea King. It started the way most small things do — wanting something that didn't exist yet, and deciding to make it rather than keep looking.</p>
+      <p>Batch No. 1 is exactly that: a first batch, made in small quantity, going out to people who'll tell us the truth about it.</p>
+      <p>It isn't a cure and we won't say it is. It's a moisturizer we wanted to have.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="safety">
+    <h2>Before you use it</h2>
+    <p class="sub">The things worth saying out loud.</p>
+
+    <div class="note">
+      <h3>Patch test first</h3>
+      <p>Put a small amount on the inside of your forearm and leave it 24 hours before using it more widely. This matters more if your skin reacts to things, and it's worth doing even with a fragrance-free product.</p>
+      <p><strong>Stop using it</strong> if you get redness, burning, itching or a rash, and talk to a doctor if it doesn't settle.</p>
+    </div>
+
+    <div class="note">
+      <h3>Not for broken skin, and not medical advice</h3>
+      <p>Don't apply it to open, weeping, blistered or infected skin. Nothing here is medical advice, and if something on your skin is painful, spreading, or not getting better, that's a conversation for a doctor rather than a moisturizer.</p>
+      <p>If you're pregnant, nursing, treating a diagnosed skin condition, or using prescription topicals, check with your clinician before adding anything new.</p>
+    </div>
+
+    <div class="note">
+      <h3>Keep it clean</h3>
+      <p>This is a water-based cream, which means it can grow bacteria if it's mishandled. Use clean dry hands or a spatula, keep the lid closed, store it out of direct sun, and don't add water to it. If it changes colour, smell or texture, throw it out.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="get">
+    <h2>Batch No. 1</h2>
+    <p class="sub">Not for sale yet — this is the first batch.</p>
+    <p>Nourishology isn't a business yet. Batch No. 1 is a small run going out as samples to people who'll use it honestly and tell us what actually happened — what it felt like, whether it lasted, whether anything went wrong.</p>
+    <p>If you have one, that's what we'd like back from you. If you found this page and want to know when there's more, say so.</p>
+    <p style="margin-top:26px"><a class="btn" href="mailto:nourishologytopicalsupplement@gmail.com">Send us a note</a></p>
+  </section>
+
+  <footer>
+    <p><strong>Nourishology</strong> — Batch No. 1. Made in small quantities by Stacia King and Andrea King.</p>
+    <p>Cosmetic product. Not evaluated by the Food and Drug Administration. Not intended to diagnose, treat, cure or prevent any disease.</p>
+    <p>Questions, or to report a reaction: <a href="mailto:nourishologytopicalsupplement@gmail.com">nourishologytopicalsupplement@gmail.com</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
