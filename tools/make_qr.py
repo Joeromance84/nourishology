@@ -2,8 +2,8 @@
 """
 make_qr.py - QR code for the Nourishology page.
 
-Usage:  python make_qr.py [url]
-Writes: assets/qr-code.png  and  assets/qr-code.svg
+Usage:  python make_qr.py [url] [stem]
+Writes: assets/<stem>.png  and  assets/<stem>.svg   (stem defaults to "qr-code")
 
 Error correction H (~30% recoverable) so it survives print and compression.
 Requires: pip install "qrcode[pil]"
@@ -21,19 +21,19 @@ BOX_SIZE = 30
 BORDER = 4
 
 
-def build(url, out_dir):
+def build(url, out_dir, stem="qr-code"):
     out_dir.mkdir(parents=True, exist_ok=True)
 
     qr = qrcode.QRCode(error_correction=ERROR_CORRECT_H, box_size=BOX_SIZE, border=BORDER)
     qr.add_data(url)
     qr.make(fit=True)
-    png = out_dir / "qr-code.png"
+    png = out_dir / (stem + ".png")
     qr.make_image(fill_color="black", back_color="white").save(png)
 
     s = qrcode.QRCode(error_correction=ERROR_CORRECT_H, box_size=BOX_SIZE, border=BORDER)
     s.add_data(url)
     s.make(fit=True)
-    svg = out_dir / "qr-code.svg"
+    svg = out_dir / (stem + ".svg")
     s.make_image(image_factory=SvgPathImage).save(svg)
 
     size = (qr.modules_count + BORDER * 2) * BOX_SIZE
@@ -46,4 +46,5 @@ def build(url, out_dir):
 
 if __name__ == "__main__":
     target = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_URL
-    build(target, Path(__file__).resolve().parent.parent / "assets")
+    stem = sys.argv[2] if len(sys.argv) > 2 else "qr-code"
+    build(target, Path(__file__).resolve().parent.parent / "assets", stem)
