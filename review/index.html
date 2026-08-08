@@ -96,8 +96,9 @@ footer p{margin:0 0 8px;max-width:60ch}
 <fieldset>
 <legend>You</legend>
   <div class="f">
-    <label for="who">First name or initials <span class="req">*</span></label>
-    <input type="text" id="who" required>
+    <label for="who">Today's date <span class="req">*</span></label>
+    <span class="hint">We don't need your name &mdash; the link you used already tells us who you are.</span>
+    <input type="text" id="who" required placeholder="e.g. 7 Aug 2026">
   </div>
   <div class="f">
     <label for="mail">Email</label>
@@ -172,6 +173,11 @@ footer p{margin:0 0 8px;max-width:60ch}
     <label for="held">Did it last? For how long?</label>
     <span class="hint">Between applications, and after you stopped.</span>
     <textarea id="held"></textarea>
+  </div>
+  <div class="f">
+    <label for="elsechanged">Did anything else change for you, or not?</label>
+    <span class="hint">Anything at all &mdash; including things you're not sure are connected to the cream, and including things that stayed exactly the same.</span>
+    <textarea id="elsechanged" class="tall"></textarea>
   </div>
   <div class="f">
     <label for="surprise">Anything surprise you?</label>
@@ -311,7 +317,7 @@ footer p{margin:0 0 8px;max-width:60ch}
              "Reviewer " + slot,
              "Submitted " + new Date().toISOString().slice(0,10), ""];
     L = L.concat(block("WHO", [
-      ["Name/initials", v("who")], ["Email", v("mail")],
+      ["Date", v("who")], ["Email", v("mail")],
       ["Age range", v("age")], ["City/State", v("loc")]]));
     L = L.concat(block("WHERE THEY STARTED", [
       ["Before", v("before")], ["Why they tried it", v("why")],
@@ -321,6 +327,7 @@ footer p{margin:0 0 8px;max-width:60ch}
     L = L.concat(block("WHAT HAPPENED", [
       ["Now", v("after")], ["Experience", v("noticed")],
       ["First noticed", v("when")], ["Lasted", v("held")],
+      ["Anything else change", v("elsechanged")],
       ["Surprises", v("surprise")], ["Didn't help / got worse", v("worse")],
       ["Cream and jar", v("feel")]]));
     L = L.concat(block("SAFETY", [
@@ -346,7 +353,7 @@ footer p{margin:0 0 8px;max-width:60ch}
 
   function subject(){
     var re = (r("react") === "Yes") ? "REACTION - " : "";
-    return "Batch No. 1 review - " + re + "Reviewer " + slot + " - " + (v("who") || "anon");
+    return "Batch No. 1 review - " + re + "Reviewer " + slot;
   }
 
   document.getElementById("send").addEventListener("click", function(){
