@@ -257,7 +257,7 @@ footer p{margin:0 0 8px;max-width:60ch}
 
 <div class="actions">
   <div class="btnrow">
-    <button type="button" class="btn" id="send">Open email to send</button>
+    <button type="button" class="btn" id="send">Send my review</button>
     <button type="button" class="btn ghost" id="copy">Copy my answers instead</button>
   </div>
   <p class="status" id="msg"></p>
@@ -278,6 +278,7 @@ footer p{margin:0 0 8px;max-width:60ch}
 <script>
 (function(){
   var TO = "nourishologytopicalsupplement@gmail.com";
+  var ENDPOINT = "https://nourishology-reviews.logan-lorentz9.workers.dev";
   var KEYS = {
     "UMAG-2FQ5":"A", "MNS4-P6UU":"B", "AGJF-BBAC":"C",
     "V88E-U4YV":"D", "Q93J-HVFP":"E"
@@ -356,15 +357,50 @@ footer p{margin:0 0 8px;max-width:60ch}
     return "Batch No. 1 review - " + re + "Reviewer " + slot;
   }
 
-  document.getElementById("send").addEventListener("click", function(){
+  var sendBtn = document.getElementById("send");
+
+  sendBtn.addEventListener("click", function(){
     if (!ok()) return;
     var body = build();
-    out.value = body; out.style.display = "block";
+    sendBtn.disabled = true;
     msg.className = "status";
-    msg.textContent = "Opening your email app. If nothing opens, copy the text below and send it to " + TO + ".";
-    window.location.href = "mailto:" + TO
-      + "?subject=" + encodeURIComponent(subject())
-      + "&body=" + encodeURIComponent(body);
+    msg.textContent = "Sending...";
+
+    fetch(ENDPOINT + "/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key: k, body: body })
+    }).then(function(res){
+      return res.json().then(function(d){ return { s: res.status, d: d }; });
+    }).then(function(out_){
+      if (out_.d && out_.d.ok) {
+        form.style.display = "none";
+        msg.className = "status";
+        msg.innerHTML = "<strong>Sent. Thank you &mdash; that's genuinely useful.</strong>"
+          + "<br>You can close this page now.";
+        return;
+      }
+      sendBtn.disabled = false;
+      var e = (out_.d && out_.d.error) || "unknown";
+      msg.className = "status warn";
+      if (e === "already_submitted") {
+        msg.textContent = "This link has already been used to send a review. "
+          + "If that wasn't you, email " + TO + ".";
+      } else if (e === "closed") {
+        msg.textContent = "Reviews are closed &mdash; all five are in. Thank you anyway.";
+      } else if (e === "bad_key") {
+        msg.textContent = "This link isn't recognised. Email " + TO + " and we'll sort it out.";
+      } else {
+        msg.textContent = "That didn't send (" + e + "). "
+          + "Use 'Copy my answers instead' and email them to " + TO + ".";
+      }
+    }).catch(function(){
+      sendBtn.disabled = false;
+      msg.className = "status warn";
+      msg.textContent = "Couldn't reach the server. Use 'Copy my answers instead' "
+        + "and email them to " + TO + ".";
+      out.value = build(); out.style.display = "block";
+    });
   });
 
   document.getElementById("copy").addEventListener("click", function(){
