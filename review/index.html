@@ -96,6 +96,11 @@ footer p{margin:0 0 8px;max-width:60ch}
 <fieldset>
 <legend>You</legend>
   <div class="f">
+    <label for="product">What did you try? <span class="req">*</span></label>
+    <span class="hint">Whatever is written on the jar or label &mdash; or just describe it.</span>
+    <input type="text" id="product" required placeholder="e.g. Batch No. 1">
+  </div>
+  <div class="f">
     <label for="who">Today's date <span class="req">*</span></label>
     <span class="hint">We don't need your name &mdash; the link you used already tells us who you are.</span>
     <input type="text" id="who" required placeholder="e.g. 7 Aug 2026">
@@ -314,10 +319,11 @@ footer p{margin:0 0 8px;max-width:60ch}
   }
 
   function build(){
-    var L = ["NOURISHOLOGY - BATCH No. 1 REVIEW",
+    var L = ["NOURISHOLOGY REVIEW",
              "Reviewer " + slot,
              "Submitted " + new Date().toISOString().slice(0,10), ""];
     L = L.concat(block("WHO", [
+      ["Product/batch", v("product")],
       ["Date", v("who")], ["Email", v("mail")],
       ["Age range", v("age")], ["City/State", v("loc")]]));
     L = L.concat(block("WHERE THEY STARTED", [
@@ -369,7 +375,7 @@ footer p{margin:0 0 8px;max-width:60ch}
     fetch(ENDPOINT + "/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ key: k, body: body })
+      body: JSON.stringify({ key: k, body: body, product: v("product") })
     }).then(function(res){
       return res.json().then(function(d){ return { s: res.status, d: d }; });
     }).then(function(out_){
@@ -377,17 +383,16 @@ footer p{margin:0 0 8px;max-width:60ch}
         form.style.display = "none";
         msg.className = "status";
         msg.innerHTML = "<strong>Sent. Thank you &mdash; that's genuinely useful.</strong>"
-          + "<br>You can close this page now.";
+          + "<br>You can close this page now. Keep this link: it's yours, and "
+          + "you can use it again for anything else you try.";
         return;
       }
       sendBtn.disabled = false;
       var e = (out_.d && out_.d.error) || "unknown";
       msg.className = "status warn";
-      if (e === "already_submitted") {
-        msg.textContent = "This link has already been used to send a review. "
-          + "If that wasn't you, email " + TO + ".";
-      } else if (e === "closed") {
-        msg.textContent = "Reviews are closed &mdash; all five are in. Thank you anyway.";
+      if (e === "too_soon") {
+        msg.textContent = "That looks like a double-tap &mdash; give it a minute and try again. "
+          + "If you meant to send a second review, that's fine, just wait a moment.";
       } else if (e === "bad_key") {
         msg.textContent = "This link isn't recognised. Email " + TO + " and we'll sort it out.";
       } else {
