@@ -74,9 +74,8 @@ footer p{margin:0 0 8px;max-width:60ch}
 <div class="wrap">
 
 <div id="gate">
-  <h2>This link is personal</h2>
-  <p>This page opens with a personal link. If you were given a jar, you were given a link to go with it &mdash; use that one.</p>
-  <p>If your link isn't working, email <a href="mailto:nourishologytopicalsupplement@gmail.com">nourishologytopicalsupplement@gmail.com</a>.</p>
+  <h2>Checking your link&hellip;</h2>
+  <p id="gatemsg">One moment.</p>
 </div>
 
 <div id="app">
@@ -284,21 +283,58 @@ footer p{margin:0 0 8px;max-width:60ch}
 (function(){
   var TO = "nourishologytopicalsupplement@gmail.com";
   var ENDPOINT = "https://nourishology-reviews.logan-lorentz9.workers.dev";
-  var KEYS = {
-    "UMAG-2FQ5":"A", "MNS4-P6UU":"B", "AGJF-BBAC":"C",
-    "V88E-U4YV":"D", "Q93J-HVFP":"E", "TEST-TEST":"TEST"
-  };
-
   var k = "";
   try {
     k = (new URLSearchParams(window.location.search).get("k") || "").toUpperCase().trim();
   } catch(e){}
-  var slot = KEYS[k];
-  if (!slot) { return; }
 
-  document.getElementById("gate").style.display = "none";
-  document.getElementById("app").style.display = "block";
-  document.getElementById("slotlbl").textContent = "Reviewer " + slot;
+  var gate = document.getElementById("gate");
+  var app  = document.getElementById("app");
+  var slot = null;
+
+  function showGate(headline, detail){
+    gate.style.display = "block";
+    gate.querySelector("h2").textContent = headline;
+    gate.querySelector("#gatemsg").innerHTML = detail;
+  }
+
+  function openForm(s){
+    slot = s;
+    gate.style.display = "none";
+    app.style.display = "block";
+    document.getElementById("slotlbl").textContent = "Reviewer " + slot;
+    wireForm();
+  }
+
+  if (!k) {
+    showGate("This link is personal",
+      "This page opens with a personal link. If you were given a jar, you were "
+      + "given a link to go with it &mdash; use that one.<br><br>"
+      + "If your link isn't working, email <a href='mailto:" + TO + "'>" + TO + "</a>.");
+  } else {
+    showGate("Checking your link\u2026", "One moment.");
+    fetch(ENDPOINT + "/check?k=" + encodeURIComponent(k))
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if (d && d.ok) { openForm(d.slot); }
+        else {
+          showGate("This link is personal",
+            "That link isn't one we recognise &mdash; it may have been cut short "
+            + "when it was sent to you. Check you copied all of it, including "
+            + "everything after the question mark.<br><br>"
+            + "Still stuck? Email <a href='mailto:" + TO + "'>" + TO + "</a>.");
+        }
+      })
+      .catch(function(){
+        showGate("Can't reach us right now",
+          "Your link may be fine &mdash; we just couldn't check it. Please try "
+          + "again in a minute.<br><br>"
+          + "If it keeps failing, email <a href='mailto:" + TO + "'>" + TO + "</a> "
+          + "and we'll take your review by email instead.");
+      });
+  }
+
+  function wireForm(){
 
   var form = document.getElementById("fb");
   var msg  = document.getElementById("msg");
@@ -419,6 +455,8 @@ footer p{margin:0 0 8px;max-width:60ch}
     msg.className = "status";
     msg.textContent = "Copied. Paste it into an email to " + TO + ".";
   });
+
+  } // end wireForm
 })();
 </script>
 </body>
