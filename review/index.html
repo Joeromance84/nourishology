@@ -100,8 +100,12 @@ footer p{margin:0 0 8px;max-width:60ch}
     <input type="text" id="product" required placeholder="e.g. Batch No. 1">
   </div>
   <div class="f">
+    <label for="name">Your name or initials <span class="req">*</span></label>
+    <span class="hint">So we know whose review this is. Initials are fine.</span>
+    <input type="text" id="name" required>
+  </div>
+  <div class="f">
     <label for="who">Today's date <span class="req">*</span></label>
-    <span class="hint">We don't need your name &mdash; the link you used already tells us who you are.</span>
     <input type="text" id="who" required placeholder="e.g. 7 Aug 2026">
   </div>
   <div class="f">
@@ -302,36 +306,23 @@ footer p{margin:0 0 8px;max-width:60ch}
     slot = s;
     gate.style.display = "none";
     app.style.display = "block";
-    document.getElementById("slotlbl").textContent = "Reviewer " + slot;
+    var lbl = document.getElementById("slotlbl");
+    if (s === "OPEN") { lbl.textContent = "Batch feedback"; }
+    else { lbl.textContent = "Reviewer " + s; }
     wireForm();
   }
 
   if (!k) {
-    showGate("This link is personal",
-      "This page opens with a personal link. If you were given a jar, you were "
-      + "given a link to go with it &mdash; use that one.<br><br>"
-      + "If your link isn't working, email <a href='mailto:" + TO + "'>" + TO + "</a>.");
+    openForm("OPEN");
   } else {
     showGate("Checking your link\u2026", "One moment.");
     fetch(ENDPOINT + "/check?k=" + encodeURIComponent(k))
       .then(function(r){ return r.json(); })
       .then(function(d){
         if (d && d.ok) { openForm(d.slot); }
-        else {
-          showGate("This link is personal",
-            "That link isn't one we recognise &mdash; it may have been cut short "
-            + "when it was sent to you. Check you copied all of it, including "
-            + "everything after the question mark.<br><br>"
-            + "Still stuck? Email <a href='mailto:" + TO + "'>" + TO + "</a>.");
-        }
+        else { openForm("OPEN"); }
       })
-      .catch(function(){
-        showGate("Can't reach us right now",
-          "Your link may be fine &mdash; we just couldn't check it. Please try "
-          + "again in a minute.<br><br>"
-          + "If it keeps failing, email <a href='mailto:" + TO + "'>" + TO + "</a> "
-          + "and we'll take your review by email instead.");
-      });
+      .catch(function(){ openForm("OPEN"); });
   }
 
   function wireForm(){
@@ -360,6 +351,7 @@ footer p{margin:0 0 8px;max-width:60ch}
              "Submitted " + new Date().toISOString().slice(0,10), ""];
     L = L.concat(block("WHO", [
       ["Product/batch", v("product")],
+      ["Name", v("name")],
       ["Date", v("who")], ["Email", v("mail")],
       ["Age range", v("age")], ["City/State", v("loc")]]));
     L = L.concat(block("WHERE THEY STARTED", [
@@ -411,7 +403,9 @@ footer p{margin:0 0 8px;max-width:60ch}
     fetch(ENDPOINT + "/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ key: k, body: body, product: v("product") })
+      body: JSON.stringify({
+        key: k, body: body, product: v("product"), name: v("name")
+      })
     }).then(function(res){
       return res.json().then(function(d){ return { s: res.status, d: d }; });
     }).then(function(out_){
@@ -419,8 +413,7 @@ footer p{margin:0 0 8px;max-width:60ch}
         form.style.display = "none";
         msg.className = "status";
         msg.innerHTML = "<strong>Sent. Thank you &mdash; that's genuinely useful.</strong>"
-          + "<br>You can close this page now. Keep this link: it's yours, and "
-          + "you can use it again for anything else you try.";
+          + "<br>You can close this page now.";
         return;
       }
       sendBtn.disabled = false;
